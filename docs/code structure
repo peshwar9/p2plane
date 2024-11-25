@@ -1,0 +1,71 @@
+# P2PLane Code Structure
+
+## Source Code Organization
+
+```
+src/
+├── lib.rs          # Library entry point, exports public interfaces
+└── p2plane/        # Main library implementation
+    ├── mod.rs      # Module organization and exports
+    ├── network.rs  # Network coordination, libp2p integration
+    │               # Handles node creation, message routing
+    │
+    ├── peer_manager.rs  # Peer discovery and management
+    │                    # Tracks peers, handles addresses
+    │
+    ├── behavior.rs      # Network and application behaviors
+    │                    # Implements libp2p NetworkBehaviour
+    │
+    ├── traits.rs        # Shared interfaces
+    │                    # Defines Message and PeerManagement traits
+    │
+    └── tests/           # Unit tests for each component
+        ├── mod.rs           # Test module organization, shared test utilities
+        ├── behavior_tests.rs # Tests for network behaviors
+        ├── network_tests.rs  # Tests for network functionality
+        └── peer_manager_tests.rs # Tests for peer management
+
+tests/               # Integration tests
+└── network_tests.rs # End-to-end network functionality tests
+
+examples/            # Example applications
+└── narwhal/         # Narwhal consensus implementation
+    ├── Cargo.toml   # Example-specific dependencies
+    └── src/
+        ├── main.rs      # Entry point
+        ├── dag.rs       # DAG implementation
+        ├── message.rs   # Custom message types
+        └── transaction.rs # Transaction handling
+```
+
+## Component Descriptions
+
+### Core Library (`src/p2plane/`)
+- **network.rs**: Implements the core networking functionality using libp2p, including node creation, message routing, and network event handling.
+- **peer_manager.rs**: Manages peer connections, discovery, and address book functionality.
+- **behavior.rs**: Implements network behaviors including Kademlia DHT, identify protocol, and request/response handling.
+- **traits.rs**: Defines core traits for messages and peer management that applications must implement.
+
+### Tests
+1. **Unit Tests** (`src/p2plane/tests/`)
+   - **behavior_tests.rs**: Tests network behavior implementations
+   - **network_tests.rs**: Tests node creation and network operations
+   - **peer_manager_tests.rs**: Tests peer management functionality
+   - **mod.rs**: Shared test utilities and setup
+
+2. **Integration Tests** (`tests/`)
+   - **network_tests.rs**: End-to-end tests of network functionality
+   - Tests complete workflows across multiple components
+
+### Examples
+- **Narwhal** (`examples/narwhal/`)
+  - Example implementation of the Narwhal consensus protocol
+  - Demonstrates how to build a complete application using P2PLane
+  - Includes custom message types and network behavior
+
+## Key Files
+- **Cargo.toml**: Project dependencies and configuration
+- **lib.rs**: Library entry point and public API
+- **mod.rs**: Module organization and visibility
+
+
